@@ -1,0 +1,138 @@
+.lightdm-gtk-greeter {
+  /********* panel * */
+  /**************** login window * */
+}
+
+.lightdm-gtk-greeter #panel_window menubar {
+  color: red;
+  font-weight: bold;
+  text-shadow: 0 1px transparentize black, 0.5;
+  -gtk-icon-shadow: 0 1px transparentize black, 0.5;
+  box-shadow: inset 0 -1px transparentize black, 0.5;
+  background-color: rgba(36, 36, 36, 0.8);
+  text-shadow: 0 1px transparentize black, 0.5;
+  -gtk-icon-shadow: 0 1px transparentize black, 0.5;
+}
+
+.lightdm-gtk-greeter #panel_window menubar menu {
+  background-color: #303133;
+}
+
+.lightdm-gtk-greeter #panel_window menubar menu menuitem {
+  font-weight: normal;
+  text-shadow: none;
+}
+
+.lightdm-gtk-greeter #panel_window menubar separator {
+  background: transparent;
+}
+
+.lightdm-gtk-greeter #login_window,
+.lightdm-gtk-greeter #shutdown_dialog,
+.lightdm-gtk-greeter #restart_dialog {
+  border-style: none;
+  border-radius: 5px;
+  background-color: #2d2e30;
+  color: red;
+  box-shadow: inset 1px 0 shade(#2d2e30, 0.6), inset -1px 0 shade(#2d2e30, 0.6), inset 0 1px shade(#2d2e30, 0.6), inset 0 -1px shade(#2d2e30, 0.6);
+}
+
+.lightdm-gtk-greeter #login_window button,
+.lightdm-gtk-greeter #shutdown_dialog button,
+.lightdm-gtk-greeter #restart_dialog button {
+  padding: 3px 15px;
+  /************************************ login/unlock and restart buttons * */
+  /******************* shutdown button * */
+}
+
+.lightdm-gtk-greeter #login_window button#login_button,
+.lightdm-gtk-greeter #login_window button#restart_button,
+.lightdm-gtk-greeter #shutdown_dialog button#login_button,
+.lightdm-gtk-greeter #shutdown_dialog button#restart_button,
+.lightdm-gtk-greeter #restart_dialog button#login_button,
+.lightdm-gtk-greeter #restart_dialog button#restart_button {
+  border-color: shade(#145ba6, 0.8);
+  background-image: linear-gradient(to bottom, shade(#145ba6, 1.02), shade(#145ba6, 0.95) 90%, shade(#145ba6, 0.9));
+  color: red;
+}
+
+.lightdm-gtk-greeter #login_window button#login_button:hover,
+.lightdm-gtk-greeter #login_window button#login_button:active,
+.lightdm-gtk-greeter #login_window button#restart_button:hover,
+.lightdm-gtk-greeter #login_window button#restart_button:active,
+.lightdm-gtk-greeter #shutdown_dialog button#login_button:hover,
+.lightdm-gtk-greeter #shutdown_dialog button#login_button:active,
+.lightdm-gtk-greeter #shutdown_dialog button#restart_button:hover,
+.lightdm-gtk-greeter #shutdown_dialog button#restart_button:active,
+.lightdm-gtk-greeter #restart_dialog button#login_button:hover,
+.lightdm-gtk-greeter #restart_dialog button#login_button:active,
+.lightdm-gtk-greeter #restart_dialog button#restart_button:hover,
+.lightdm-gtk-greeter #restart_dialog button#restart_button:active {
+  border-color: shade(#145ba6, 0.7);
+  background-image: linear-gradient(to bottom, shade(#145ba6, 1.12), shade(#145ba6, 1.05) 90%, shade(#145ba6, 1));
+}
+
+.lightdm-gtk-greeter #login_window button#shutdown_button,
+.lightdm-gtk-greeter #shutdown_dialog button#shutdown_button,
+.lightdm-gtk-greeter #restart_dialog button#shutdown_button {
+  border-color: shade(#cc0000, 0.8);
+  background-image: linear-gradient(to bottom, shade(#cc0000, 1.02), shade(#cc0000, 0.95) 90%, shade(#cc0000, 0.9));
+  color: red;
+}
+
+.lightdm-gtk-greeter #login_window button#shutdown_button:hover,
+.lightdm-gtk-greeter #login_window button#shutdown_button:active,
+.lightdm-gtk-greeter #shutdown_dialog button#shutdown_button:hover,
+.lightdm-gtk-greeter #shutdown_dialog button#shutdown_button:active,
+.lightdm-gtk-greeter #restart_dialog button#shutdown_button:hover,
+.lightdm-gtk-greeter #restart_dialog button#shutdown_button:active {
+  border-color: shade(#cc0000, 0.7);
+  background-image: linear-gradient(to bottom, shade(#cc0000, 1.12), shade(#cc0000, 1.05) 90%, shade(#cc0000, 1));
+}
+
+.lightdm-gtk-greeter #content_frame {
+  padding-bottom: 14px;
+}
+
+.lightdm-gtk-greeter #login_window menu {
+  border-radius: 1px;
+}
+
+.lightdm-gtk-greeter #login_window combobox button.combo {
+  color: red;
+  padding: 0;
+  background: none;
+  border-style: none;
+  box-shadow: none;
+}
+
+.lightdm-gtk-greeter #login_window #user_combobox {
+  color: red;
+  font-size: 18px;
+}
+
+.lightdm-gtk-greeter #login_window #user_combobox menu {
+  font-weight: normal;
+}
+
+.lightdm-gtk-greeter #login_window #user_image {
+  padding: 3px;
+  border-radius: 3px;
+  box-shadow: inset 1px 0 shade(#2d2e30, 0.75), inset -1px 0 shade(#2d2e30, 0.75), inset 0 1px shade(#2d2e30, 0.55), inset 0 -1px shade(#2d2e30, 0.85);
+}
+
+.lightdm-gtk-greeter #login_window #user_image_border {
+  border-radius: 3px;
+  background-image: linear-gradient(to bottom, shade(#2d2e30, 0.9), shade(#2d2e30, 0.98) 10%, shade(#2d2e30, 1) 99%, shade(#2d2e30, 1));
+  box-shadow: inset 0 1px shade(#2d2e30, 0.8), inset 0 -1px shade(#2d2e30, 0.55);
+}
+
+.lightdm-gtk-greeter #buttonbox_frame {
+  padding-top: 20px;
+  padding-bottom: 0px;
+  border-style: none;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background-image: linear-gradient(to bottom, shade(#3b3e3f, 0.85), shade(#3b3e3f, 0.98) 10%, shade(#3b3e3f, 1) 99%, shade(#3b3e3f, 1));
+  box-shadow: inset 1px 0 shade(#2d2e30, 0.6), inset -1px 0 shade(#2d2e30, 0.6), inset 0 1px shade(#2d2e30, 0.6), inset 0 -1px shade(#2d2e30, 0.6);
+}
