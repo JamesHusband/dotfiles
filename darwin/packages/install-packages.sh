@@ -29,30 +29,20 @@ check_python_deps() {
         log_error "PyYAML is not installed."
         log_info "Attempting to install pyyaml..."
         
-        # Try pip3 install --user first (no sudo needed)
-        if pip3 install --user pyyaml 2>&1; then
+        # Try python3 -m pip install --user --break-system-packages (for PEP 668)
+        if python3 -m pip install --user --break-system-packages pyyaml 2>&1; then
             # Verify installation worked
             if python3 -c "import yaml" 2>/dev/null; then
-                log_info "PyYAML installed successfully via pip3 --user."
+                log_info "PyYAML installed successfully."
             else
-                log_warn "pip3 --user install completed but import failed. Trying system-wide..."
-                if pip3 install pyyaml 2>&1; then
-                    if python3 -c "import yaml" 2>/dev/null; then
-                        log_info "PyYAML installed successfully via pip3."
-                    else
-                        log_error "Installation completed but PyYAML still not importable."
-                        log_error "Please install manually: pip3 install pyyaml"
-                        exit 1
-                    fi
-                else
-                    log_error "Failed to install pyyaml via pip3."
-                    log_error "Please install manually: pip3 install pyyaml"
-                    exit 1
-                fi
+                log_error "Installation completed but PyYAML still not importable."
+                log_error "Please install manually: python3 -m pip install --user --break-system-packages pyyaml"
+                exit 1
             fi
         else
-            log_error "Failed to install pyyaml via pip3 --user."
-            log_error "Please install manually: pip3 install pyyaml"
+            log_error "Failed to install pyyaml."
+            log_error "Please install manually: python3 -m pip install --user --break-system-packages pyyaml"
+            log_error "Or use Homebrew: brew install python-yaml"
             exit 1
         fi
     fi
@@ -60,23 +50,14 @@ check_python_deps() {
     # Check for TOML support (tomllib in Python 3.11+, or tomli)
     if ! python3 -c "import tomllib" 2>/dev/null && ! python3 -c "import tomli" 2>/dev/null; then
         log_warn "TOML support not found. Installing tomli..."
-        if pip3 install --user tomli 2>&1; then
+        if python3 -m pip install --user --break-system-packages tomli 2>&1; then
             if python3 -c "import tomli" 2>/dev/null; then
-                log_info "TOML support installed via pip3 --user."
+                log_info "TOML support installed."
             else
-                log_warn "pip3 --user install completed but import failed. Trying system-wide..."
-                if pip3 install tomli 2>&1; then
-                    if python3 -c "import tomli" 2>/dev/null; then
-                        log_info "TOML support installed."
-                    else
-                        log_warn "Could not verify TOML support installation."
-                    fi
-                else
-                    log_warn "Could not install TOML support. TOML parsing may fail."
-                fi
+                log_warn "Installation completed but tomli still not importable."
             fi
         else
-            log_warn "Could not install TOML support via pip3 --user. TOML parsing may fail."
+            log_warn "Could not install TOML support. TOML parsing may fail."
         fi
     fi
 }
