@@ -26,9 +26,11 @@ apply_shared_configs() {
             link_user "$SHARED_CONFIG/shell/zsh/.p10k.zsh" ".p10k.zsh"
         
         # Symlink oh-my-zsh directory if it exists
-        if [ -d "$SHARED_CONFIG/shell/zsh/.oh-my-zsh" ]; then
+        ohmyzsh_src="$SHARED_CONFIG/shell/zsh/.oh-my-zsh"
+        log_info "Checking for .oh-my-zsh at: $ohmyzsh_src"
+        if [ -d "$ohmyzsh_src" ]; then
+            log_info "Found .oh-my-zsh directory, creating symlink..."
             ohmyzsh_dst="$HOME_DIR/.oh-my-zsh"
-            ohmyzsh_src="$SHARED_CONFIG/shell/zsh/.oh-my-zsh"
             
             # Backup existing directory if it exists and is not a symlink
             if [ -e "$ohmyzsh_dst" ] && [ ! -L "$ohmyzsh_dst" ]; then
@@ -38,7 +40,8 @@ apply_shared_configs() {
                     log_info "Backed up to: $backup_name"
                 else
                     log_error "Failed to backup existing .oh-my-zsh directory. Please remove it manually."
-                    return 1
+                    log_warn "Skipping .oh-my-zsh symlink creation due to backup failure."
+                    return 0
                 fi
             fi
             
@@ -57,7 +60,7 @@ apply_shared_configs() {
                 log_info "Linked $ohmyzsh_dst -> $ohmyzsh_src_abs"
             else
                 log_error "Failed to create symlink: $ohmyzsh_dst -> $ohmyzsh_src_abs"
-                return 1
+                return 0
             fi
             
             # Verify the symlink was created correctly
@@ -65,8 +68,10 @@ apply_shared_configs() {
                 log_info "Verified .oh-my-zsh symlink is working correctly"
             else
                 log_error "Symlink created but verification failed. Check: $ohmyzsh_dst"
-                return 1
+                return 0
             fi
+        else
+            log_warn ".oh-my-zsh directory not found at: $ohmyzsh_src"
         fi
     fi
     
