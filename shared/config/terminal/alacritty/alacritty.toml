@@ -1,0 +1,90 @@
+# ================================================================
+# Alacritty - Full Config
+# ================================================================
+
+[window]
+padding = { x = 10, y = 10 }
+dynamic_padding = true
+decorations = "Transparent"
+opacity = 1.0
+blur = true
+
+[scrolling]
+history = 10000
+multiplier = 3
+
+[font]
+size = 11
+
+[font.normal]
+family = "MesloLGS NF"
+style = "Regular"
+
+[font.bold]
+family = "MesloLGS NF"
+style = "Bold"
+
+[font.italic]
+family = "MesloLGS NF"
+style = "Italic"
+
+[font.bold_italic]
+family = "MesloLGS NF"
+style = "Bold Italic"
+
+[cursor]
+style = { shape = "Underline", blinking = "On" }
+vi_mode_style = { shape = "Underline", blinking = "Off" }
+unfocused_hollow = false
+
+[mouse]
+hide_when_typing = true
+bindings = [
+  { mouse = "Middle", action = "PasteSelection" },
+]
+
+[keyboard]
+bindings = [
+  { key = "V", mods = "Control|Shift", action = "Paste" },
+  { key = "C", mods = "Control|Shift", action = "Copy" },
+  { key = "N", mods = "Control|Shift", action = "SpawnNewInstance" },
+]
+
+# ============================
+# Colors (Catppuccin Mocha)
+# ============================
+[colors.primary]
+background = "#1E1E2E"
+foreground = "#CDD6F4"
+
+[colors.cursor]
+text = "#1E1E2E"
+cursor = "#F5E0DC"
+
+[colors.vi_mode_cursor]
+text = "#1E1E2E"
+cursor = "#B4BEFE"
+
+[colors.selection]
+text = "#1E1E2E"
+background = "#F5E0DC"
+
+[colors.normal]
+black = "#45475A"
+red = "#F38BA8"
+green = "#A6E3A1"
+yellow = "#F9E2AF"
+blue = "#89B4FA"
+magenta = "#F5C2E7"
+cyan = "#94E2D5"
+white = "#BAC2DE"
+
+[colors.bright]
+black = "#585B70"
+red = "#F38BA8"
+green = "#A6E3A1"
+yellow = "#F9E2AF"
+blue = "#89B4FA"
+magenta = "#F5C2E7"
+cyan = "#94E2D5"
+white = "#A6ADC8"

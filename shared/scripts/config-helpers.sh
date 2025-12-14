@@ -54,5 +54,11 @@ apply_shared_configs() {
         [ -f "$SHARED_CONFIG/shell/bash/.bashrc" ] && \
             link_user "$SHARED_CONFIG/shell/bash/.bashrc" ".bashrc"
     fi
+    
+    # Terminal configurations
+    # Alacritty (Linux/Mac: ~/.config/alacritty/alacritty.toml)
+    if [ -f "$SHARED_CONFIG/terminal/alacritty/alacritty.toml" ]; then
+        link_user "$SHARED_CONFIG/terminal/alacritty/alacritty.toml" ".config/alacritty/alacritty.toml"
+    fi
 }
 
