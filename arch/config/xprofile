@@ -1,0 +1,21 @@
+#!/bin/sh
+
+[ -f ~/.Xmodmap ] && xmodmap ~/.Xmodmap &
+
+# compositor
+picom &
+
+# Menu Bar
+dwmblocks &
+
+# Wallpaper
+feh --bg-fill /home/jam/.local/share/wallpapers/bg.png &
+
+# Bluetooth
+~/.config/pipewire/bt-autoconnect.sh &
+~/.config/pipewire/set-bluetooth-default.sh &
+
+xrandr \
+  --output DP-4 --primary --mode 1920x1080 --pos 0x0 \
+  --output HDMI-0 --mode 1920x1200 --right-of DP-4
+
