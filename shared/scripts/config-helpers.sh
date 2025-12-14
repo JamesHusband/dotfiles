@@ -13,8 +13,10 @@ apply_shared_configs() {
     # Detect OS for platform-specific paths
     if [ "$(uname -s)" = "Darwin" ]; then
         PLUGINS_DST="/usr/local/share/zsh/plugins"
+        THEMES_DST="/usr/local/share/zsh/themes"
     else
         PLUGINS_DST="/usr/share/zsh/plugins"
+        THEMES_DST="/usr/share/zsh/themes"
     fi
     
     log_info "Applying shared configurations..."
@@ -56,6 +58,34 @@ apply_shared_configs() {
                 log_info "Copied zsh plugins to $PLUGINS_DST"
             else
                 log_error "Failed to copy zsh plugins to $PLUGINS_DST"
+            fi
+        fi
+        
+        # Copy powerlevel10k theme to oh-my-zsh custom themes directory
+        theme_src="$SHARED_CONFIG/shell/zsh/zsh-theme-powerlevel10k"
+        if [ -d "$theme_src" ]; then
+            log_info "Copying powerlevel10k theme to oh-my-zsh custom themes..."
+            theme_dst="$HOME_DIR/.oh-my-zsh/custom/themes/powerlevel10k"
+            
+            # Create custom/themes directory if needed
+            mkdir -p "$(dirname "$theme_dst")"
+            
+            # Backup existing theme directory if it exists
+            if [ -e "$theme_dst" ] && [ ! -L "$theme_dst" ]; then
+                log_info "Backing up existing: $theme_dst"
+                mv "$theme_dst" "${theme_dst}.bak.$(date +%Y%m%d_%H%M%S)" 2>/dev/null || \
+                    log_warn "Could not backup existing theme directory"
+            fi
+            
+            # Remove existing symlink or directory if present
+            [ -L "$theme_dst" ] && rm "$theme_dst"
+            [ -d "$theme_dst" ] && [ ! -L "$theme_dst" ] && rm -rf "$theme_dst"
+            
+            # Copy theme directory
+            if cp -a "$theme_src" "$theme_dst"; then
+                log_info "Copied powerlevel10k theme to $theme_dst"
+            else
+                log_error "Failed to copy powerlevel10k theme to $theme_dst"
             fi
         fi
         
