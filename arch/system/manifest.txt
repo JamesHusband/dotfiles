@@ -1,0 +1,9 @@
+# Display manager + greeter
+lightdm
+lightdm-gtk-greeter
+
+# Fonts
+ttf-jetbrains-mono
+
+# Wallpaper / image viewer (X11)
+feh
