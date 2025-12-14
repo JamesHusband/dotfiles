@@ -25,6 +25,34 @@ apply_shared_configs() {
         [ -f "$SHARED_CONFIG/shell/zsh/.p10k.zsh" ] && \
             link_user "$SHARED_CONFIG/shell/zsh/.p10k.zsh" ".p10k.zsh"
         
+        # Copy zsh plugins to system directory
+        plugins_src="$SHARED_CONFIG/shell/zsh/plugins"
+        plugins_dst="/usr/share/zsh/plugins"
+        if [ -d "$plugins_src" ]; then
+            log_info "Copying zsh plugins to system directory..."
+            
+            # Backup existing plugins directory if it exists
+            if [ -e "$plugins_dst" ] && [ ! -L "$plugins_dst" ]; then
+                log_info "Backing up existing: $plugins_dst"
+                sudo mv "$plugins_dst" "${plugins_dst}.bak.$(date +%Y%m%d_%H%M%S)" 2>/dev/null || \
+                    log_warn "Could not backup existing plugins directory"
+            fi
+            
+            # Remove existing symlink or directory if present
+            [ -L "$plugins_dst" ] && sudo rm "$plugins_dst"
+            [ -d "$plugins_dst" ] && [ ! -L "$plugins_dst" ] && sudo rm -rf "$plugins_dst"
+            
+            # Create parent directory if needed
+            sudo mkdir -p "$(dirname "$plugins_dst")"
+            
+            # Copy plugins directory
+            if sudo cp -a "$plugins_src" "$plugins_dst"; then
+                log_info "Copied zsh plugins to $plugins_dst"
+            else
+                log_error "Failed to copy zsh plugins to $plugins_dst"
+            fi
+        fi
+        
         # Symlink oh-my-zsh directory if it exists
         ohmyzsh_src="$SHARED_CONFIG/shell/zsh/.oh-my-zsh"
         log_info "Checking for .oh-my-zsh at: $ohmyzsh_src"
