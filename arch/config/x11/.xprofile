@@ -9,7 +9,7 @@ picom &
 dwmblocks &
 
 # Wallpaper
-feh --bg-fill /home/jam/.local/share/wallpapers/bg.png &
+feh --no-fehbg --bg-fill /home/jam/.local/share/wallpapers/bg.png &
 
 # Bluetooth
 ~/.config/pipewire/bt-autoconnect.sh &
