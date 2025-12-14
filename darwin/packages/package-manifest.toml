@@ -1,0 +1,13 @@
+# Package manifest for macOS
+# Packages grouped by source to eliminate duplication
+
+# [packages.brew]
+# packages = [
+#   "package-name",
+# ]
+
+# [packages.mas]
+# packages = [
+#   "app-id",
+# ]
+

@@ -1,0 +1,7 @@
+# System services to enable
+# Format: service-name = true/false
+
+[services]
+# launchd services
+# Example: service-name = true
+
