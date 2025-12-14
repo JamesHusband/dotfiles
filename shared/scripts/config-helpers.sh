@@ -28,11 +28,18 @@ apply_shared_configs() {
         # Symlink oh-my-zsh directory if it exists
         if [ -d "$SHARED_CONFIG/shell/zsh/.oh-my-zsh" ]; then
             ohmyzsh_dst="$HOME_DIR/.oh-my-zsh"
+            ohmyzsh_src="$SHARED_CONFIG/shell/zsh/.oh-my-zsh"
             
             # Backup existing directory if it exists and is not a symlink
             if [ -e "$ohmyzsh_dst" ] && [ ! -L "$ohmyzsh_dst" ]; then
                 log_info "Backing up existing: $ohmyzsh_dst"
-                mv "$ohmyzsh_dst" "${ohmyzsh_dst}.bak.$(date +%Y%m%d_%H%M%S)"
+                backup_name="${ohmyzsh_dst}.bak.$(date +%Y%m%d_%H%M%S)"
+                if mv "$ohmyzsh_dst" "$backup_name" 2>/dev/null; then
+                    log_info "Backed up to: $backup_name"
+                else
+                    log_error "Failed to backup existing .oh-my-zsh directory. Please remove it manually."
+                    return 1
+                fi
             fi
             
             # Create parent directory if needed
@@ -41,9 +48,25 @@ apply_shared_configs() {
             # Remove existing symlink if present
             [ -L "$ohmyzsh_dst" ] && rm "$ohmyzsh_dst"
             
-            # Create symlink
-            ln -sfn "$SHARED_CONFIG/shell/zsh/.oh-my-zsh" "$ohmyzsh_dst"
-            log_info "Linked $ohmyzsh_dst -> $SHARED_CONFIG/shell/zsh/.oh-my-zsh"
+            # Remove existing directory if present (shouldn't happen after backup, but just in case)
+            [ -d "$ohmyzsh_dst" ] && [ ! -L "$ohmyzsh_dst" ] && rm -rf "$ohmyzsh_dst"
+            
+            # Create symlink with absolute path
+            ohmyzsh_src_abs="$(cd "$(dirname "$ohmyzsh_src")" && pwd)/$(basename "$ohmyzsh_src")"
+            if ln -sfn "$ohmyzsh_src_abs" "$ohmyzsh_dst"; then
+                log_info "Linked $ohmyzsh_dst -> $ohmyzsh_src_abs"
+            else
+                log_error "Failed to create symlink: $ohmyzsh_dst -> $ohmyzsh_src_abs"
+                return 1
+            fi
+            
+            # Verify the symlink was created correctly
+            if [ -L "$ohmyzsh_dst" ] && [ -d "$ohmyzsh_dst" ]; then
+                log_info "Verified .oh-my-zsh symlink is working correctly"
+            else
+                log_error "Symlink created but verification failed. Check: $ohmyzsh_dst"
+                return 1
+            fi
         fi
     fi
     
