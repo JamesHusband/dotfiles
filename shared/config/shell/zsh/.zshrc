@@ -109,8 +109,16 @@ plugins=(git)
 
 ZSH_THEME="powerlevel10k/powerlevel10k"
 source $ZSH/oh-my-zsh.sh
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# Set plugins path based on OS (macOS uses /usr/local, Linux uses /usr)
+if [[ "$(uname -s)" == "Darwin" ]]; then
+    ZSH_PLUGINS_DIR="/usr/local/share/zsh/plugins"
+else
+    ZSH_PLUGINS_DIR="/usr/share/zsh/plugins"
+fi
+
+source "$ZSH_PLUGINS_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+source "$ZSH_PLUGINS_DIR/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
