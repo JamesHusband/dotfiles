@@ -1,0 +1,13 @@
+# Git configuration
+# Cross-platform git settings
+
+[user]
+    name = James Husband
+    email = jchusband@proton.me
+
+[core]
+    editor = nano
+
+[init]
+    defaultBranch = main
+
