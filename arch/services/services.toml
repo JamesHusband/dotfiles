@@ -1,7 +1,0 @@
-# System services to enable
-# Format: service-name = true/false
-
-[services]
-# systemd units
-# Example: lightdm = true
-

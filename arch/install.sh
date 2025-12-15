@@ -14,28 +14,16 @@ log_info "Starting Arch Linux installation..."
 log_info "Running preflight checks..."
 # TODO: Add preflight checks (OS detection, permissions, etc.)
 
-# Phase 1: Update
-log_info "Phase 1: System updates"
-"$SCRIPT_DIR/post-install/update.sh"
-
-# Phase 2: Post-install
-log_info "Phase 2: Post-install tasks"
-"$SCRIPT_DIR/post-install/post-install.sh"
-
-# Phase 3: Packages
-log_info "Phase 3: Package installation"
+# Phase 1: Packages
+log_info "Phase 1: Package installation"
 "$SCRIPT_DIR/packages/install-packages.sh"
 
-# Phase 4: Services
-log_info "Phase 4: Service enablement"
-"$SCRIPT_DIR/services/enable-services.sh"
-
-# Phase 5: Config
-log_info "Phase 5: Configuration"
+# Phase 2: Config
+log_info "Phase 2: Configuration"
 "$SCRIPT_DIR/config/config.sh"
 
-# Phase 6: Ricing
-log_info "Phase 6: Ricing and visual customization"
+# Phase 3: Ricing
+log_info "Phase 3: Ricing and visual customization"
 "$SCRIPT_DIR/ricing/rice.sh"
 
 # Postflight

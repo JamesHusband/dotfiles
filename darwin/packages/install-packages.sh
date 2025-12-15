@@ -5,7 +5,7 @@ set -eu
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 SCRIPTS_DIR="$REPO_ROOT/scripts"
-SHARED_APPS="$REPO_ROOT/shared/packages/apps.common.txt"
+SHARED_APPS="$REPO_ROOT/shared/packages/shared.packages.txt"
 OS_MANIFEST="$SCRIPT_DIR/package-manifest.txt"
 
 # Source shared utilities

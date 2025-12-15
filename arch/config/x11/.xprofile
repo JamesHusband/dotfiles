@@ -3,7 +3,10 @@
 [ -f ~/.Xmodmap ] && xmodmap ~/.Xmodmap &
 
 # compositor
-picom &
+picom -b &
+
+# Start a notification daemon (e.g., 'dunst')
+dunst &
 
 # Menu Bar
 dwmblocks &

@@ -15,6 +15,24 @@ SHARED_ASSETS="$REPO_ROOT/shared/assets"
 # Utility Functions
 # ============================================================================
 
+# Symlink user config files (no sudo required)
+link_user() {
+    src="$1"
+    dst="$HOME_DIR/$2"
+    
+    [ -e "$src" ] || { log_error "Missing source: $src"; exit 1; }
+    
+    # Create parent directory if needed
+    mkdir -p "$(dirname "$dst")"
+    
+    # Remove existing file/symlink if present
+    [ -e "$dst" ] && rm -rf "$dst"
+    
+    # Create symlink
+    ln -sfn "$src" "$dst"
+    log_info "Linked $dst -> $src"
+}
+
 # Symlink system files (requires sudo)
 link_system() {
     src="$1"
@@ -130,6 +148,18 @@ ensure_lightdm_theme_acls() {
     fi
 }
 
+# Apply dunst notification daemon configuration
+config_dunst() {
+    log_info "Setting up dunst configuration..."
+    
+    DUNST_DIR="$SCRIPT_DIR/dunst"
+    [ -d "$DUNST_DIR" ] || return 0
+    
+    if [ -f "$DUNST_DIR/dunstrc" ]; then
+        link_user "$DUNST_DIR/dunstrc" ".config/dunst/dunstrc"
+    fi
+}
+
 # ============================================================================
 # Main Execution
 # ============================================================================
@@ -143,6 +173,9 @@ main() {
     # Ensure LightDM can read the repo-backed greeter theme, then configure it
     ensure_lightdm_theme_acls
     config_lightdm_greeter
+    
+    # Configure dunst notification daemon
+    config_dunst
     
     # Additional ricing components can be added here:
     # - GTK themes
