@@ -4,12 +4,12 @@ set -eu
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-SHARED_SCRIPTS="$REPO_ROOT/shared/scripts"
+SCRIPTS_DIR="$REPO_ROOT/scripts"
 SHARED_APPS="$REPO_ROOT/shared/packages/apps.common.txt"
 OS_MANIFEST="$SCRIPT_DIR/package-manifest.txt"
 
 # Source shared utilities
-. "$SHARED_SCRIPTS/lib.sh"
+. "$SCRIPTS_DIR/lib.sh"
 
 log_info "Installing packages from manifests..."
 

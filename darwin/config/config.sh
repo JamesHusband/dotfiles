@@ -4,12 +4,12 @@ set -eu
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-SHARED_SCRIPTS="$REPO_ROOT/shared/scripts"
+SCRIPTS_DIR="$REPO_ROOT/scripts"
 HOME_DIR="$HOME"
 
 # Source shared utilities
-. "$SHARED_SCRIPTS/lib.sh"
-. "$SHARED_SCRIPTS/config-helpers.sh"
+. "$SCRIPTS_DIR/lib.sh"
+. "$SCRIPTS_DIR/config-helpers.sh"
 
 # ============================================================================
 # Utility Functions
