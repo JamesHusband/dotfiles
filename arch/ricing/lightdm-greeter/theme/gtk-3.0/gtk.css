@@ -5,6 +5,7 @@
 .lightdm-gtk-greeter #login_window {
   border-radius: 12px;
   background-color: rgba(59, 62, 63, 0.92);
+  
   color: #fff7c0;
   border: 1px solid #20272e;
   box-shadow:

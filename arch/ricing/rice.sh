@@ -4,6 +4,7 @@ set -eu
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+HOME_DIR="$HOME"
 SCRIPTS_DIR="$REPO_ROOT/scripts"
 SHARED_ASSETS="$REPO_ROOT/shared/assets"
 
@@ -45,18 +46,12 @@ copy_system() {
     
     [ -e "$src" ] || { log_error "Missing source: $src"; exit 1; }
     
-    # Backup existing file/directory if it exists and is not a symlink
-    if [ -e "$dst" ] && [ ! -L "$dst" ]; then
-        log_info "Backing up existing: $dst"
-        sudo mv "$dst" "${dst}.bak.$(date +%Y%m%d_%H%M%S)"
-    fi
-    
     # Create parent directory if needed
     sudo mkdir -p "$(dirname "$dst")"
     
-    # Remove existing symlink or directory if present
+    # Remove existing file/symlink/directory if present
     [ -L "$dst" ] && sudo rm "$dst"
-    [ -d "$dst" ] && sudo rm -rf "$dst" # Ensure directory is clean for copy
+    [ -e "$dst" ] && sudo rm -rf "$dst"
     
     # Copy file/directory
     sudo cp -a "$src" "$dst"
@@ -75,10 +70,10 @@ copy_assets() {
     sudo mkdir -p "/usr/share/backgrounds"
     
     # Copy login background
-    if [ -f "$SHARED_ASSETS/wallpapers/login_3.1.png" ]; then
-        copy_system "$SHARED_ASSETS/wallpapers/login_3.1.png" "/usr/share/backgrounds/login_3.1.png"
+    if [ -f "$SHARED_ASSETS/wallpapers/login.png" ]; then
+        copy_system "$SHARED_ASSETS/wallpapers/login.png" "/usr/share/backgrounds/login.png"
     else
-        log_warn "Login background not found: $SHARED_ASSETS/wallpapers/login_3.1.png"
+        log_warn "Login background not found: $SHARED_ASSETS/wallpapers/login.png"
     fi
     
     # Copy avatar
@@ -96,14 +91,42 @@ config_lightdm_greeter() {
     LIGHTDM_GREETER_DIR="$SCRIPT_DIR/lightdm-greeter"
     [ -d "$LIGHTDM_GREETER_DIR" ] || return 0
     
-    # Copy configuration file
+    # Symlink configuration file so it stays repo-driven
     if [ -f "$LIGHTDM_GREETER_DIR/lightdm-gtk-greeter.conf" ]; then
-        copy_system "$LIGHTDM_GREETER_DIR/lightdm-gtk-greeter.conf" "/etc/lightdm/lightdm-gtk-greeter.conf"
+        link_system "$LIGHTDM_GREETER_DIR/lightdm-gtk-greeter.conf" "/etc/lightdm/lightdm-gtk-greeter.conf"
     fi
     
-    # Copy theme directory
+    # Symlink the entire theme directory so the greeter reads assets directly
+    # from the repo (gtk.css, images, etc.).
     if [ -d "$LIGHTDM_GREETER_DIR/theme" ]; then
-        copy_system "$LIGHTDM_GREETER_DIR/theme" "/usr/share/themes/JamGrey"
+        link_system "$LIGHTDM_GREETER_DIR/theme" "/usr/share/themes/JamGrey"
+    fi
+}
+
+# Ensure LightDM user can traverse into $HOME and read the greeter theme tree
+ensure_lightdm_theme_acls() {
+    LIGHTDM_USER="lightdm"
+    THEME_DIR="$SCRIPT_DIR/lightdm-greeter/theme"
+
+    # setfacl is required for fine-grained access control
+    if ! command -v setfacl >/dev/null 2>&1; then
+        log_warn "setfacl not found; skipping LightDM theme ACL configuration."
+        return 0
+    fi
+
+    # Allow LightDM to traverse into the home directory (no listing)
+    if [ -d "$HOME_DIR" ]; then
+        sudo setfacl -m "u:${LIGHTDM_USER}:--x" "$HOME_DIR" || \
+            log_warn "Failed to set ACL on home directory for ${LIGHTDM_USER}"
+    fi
+
+    # Allow LightDM to read the theme tree in the repo (gtk.css + assets)
+    if [ -d "$THEME_DIR" ]; then
+        sudo setfacl -R -m "u:${LIGHTDM_USER}:rX" "$THEME_DIR" || \
+            log_warn "Failed to set recursive ACLs on theme directory for ${LIGHTDM_USER}"
+        # Default ACLs so new files inherit access
+        sudo setfacl -R -m "d:u:${LIGHTDM_USER}:rX" "$THEME_DIR" || \
+            log_warn "Failed to set default ACLs on theme directory for ${LIGHTDM_USER}"
     fi
 }
 
@@ -117,7 +140,8 @@ main() {
     # Copy shared assets first (needed by LightDM greeter)
     copy_assets
     
-    # Apply LightDM greeter configuration
+    # Ensure LightDM can read the repo-backed greeter theme, then configure it
+    ensure_lightdm_theme_acls
     config_lightdm_greeter
     
     # Additional ricing components can be added here:
