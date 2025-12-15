@@ -1,0 +1,7 @@
+# source:package
+pacman:lightdm
+pacman:lightdm-gtk-greeter
+pacman:ttf-jetbrains-mono
+pacman:feh
+
+# aur:some-aur-package

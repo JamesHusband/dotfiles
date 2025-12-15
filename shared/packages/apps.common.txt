@@ -1,0 +1,5 @@
+# name | arch | darwin
+# arch / darwin fields are "source:package"; omit if not used on that OS
+
+alacritty | pacman:alacritty | brew:alacritty
+gimp      | pacman:gimp      | brew:gimp

@@ -13,10 +13,8 @@ apply_shared_configs() {
     # Detect OS for platform-specific paths
     if [ "$(uname -s)" = "Darwin" ]; then
         PLUGINS_DST="/usr/local/share/zsh/plugins"
-        THEMES_DST="/usr/local/share/zsh/themes"
     else
         PLUGINS_DST="/usr/share/zsh/plugins"
-        THEMES_DST="/usr/share/zsh/themes"
     fi
     
     log_info "Applying shared configurations..."
@@ -31,8 +29,6 @@ apply_shared_configs() {
     if [ -d "$SHARED_CONFIG/shell/zsh" ]; then
         [ -f "$SHARED_CONFIG/shell/zsh/.zshrc" ] && \
             link_user "$SHARED_CONFIG/shell/zsh/.zshrc" ".zshrc"
-        [ -f "$SHARED_CONFIG/shell/zsh/.p10k.zsh" ] && \
-            link_user "$SHARED_CONFIG/shell/zsh/.p10k.zsh" ".p10k.zsh"
         
         # Copy zsh plugins to system directory
         plugins_src="$SHARED_CONFIG/shell/zsh/plugins"
@@ -59,83 +55,6 @@ apply_shared_configs() {
             else
                 log_error "Failed to copy zsh plugins to $PLUGINS_DST"
             fi
-        fi
-        
-        # Copy powerlevel10k theme to oh-my-zsh custom themes directory
-        theme_src="$SHARED_CONFIG/shell/zsh/zsh-theme-powerlevel10k"
-        if [ -d "$theme_src" ]; then
-            log_info "Copying powerlevel10k theme to oh-my-zsh custom themes..."
-            theme_dst="$HOME_DIR/.oh-my-zsh/custom/themes/powerlevel10k"
-            
-            # Create custom/themes directory if needed
-            mkdir -p "$(dirname "$theme_dst")"
-            
-            # Backup existing theme directory if it exists
-            if [ -e "$theme_dst" ] && [ ! -L "$theme_dst" ]; then
-                log_info "Backing up existing: $theme_dst"
-                mv "$theme_dst" "${theme_dst}.bak.$(date +%Y%m%d_%H%M%S)" 2>/dev/null || \
-                    log_warn "Could not backup existing theme directory"
-            fi
-            
-            # Remove existing symlink or directory if present
-            [ -L "$theme_dst" ] && rm "$theme_dst"
-            [ -d "$theme_dst" ] && [ ! -L "$theme_dst" ] && rm -rf "$theme_dst"
-            
-            # Copy theme directory
-            if cp -a "$theme_src" "$theme_dst"; then
-                log_info "Copied powerlevel10k theme to $theme_dst"
-            else
-                log_error "Failed to copy powerlevel10k theme to $theme_dst"
-            fi
-        fi
-        
-        # Symlink oh-my-zsh directory if it exists
-        ohmyzsh_src="$SHARED_CONFIG/shell/zsh/.oh-my-zsh"
-        log_info "Checking for .oh-my-zsh at: $ohmyzsh_src"
-        if [ -d "$ohmyzsh_src" ]; then
-            log_info "Found .oh-my-zsh directory, creating symlink..."
-            ohmyzsh_dst="$HOME_DIR/.oh-my-zsh"
-            
-            # Backup existing directory if it exists and is not a symlink
-            if [ -e "$ohmyzsh_dst" ] && [ ! -L "$ohmyzsh_dst" ]; then
-                log_info "Backing up existing: $ohmyzsh_dst"
-                backup_name="${ohmyzsh_dst}.bak.$(date +%Y%m%d_%H%M%S)"
-                if mv "$ohmyzsh_dst" "$backup_name" 2>/dev/null; then
-                    log_info "Backed up to: $backup_name"
-                else
-                    log_error "Failed to backup existing .oh-my-zsh directory. Please remove it manually."
-                    log_warn "Skipping .oh-my-zsh symlink creation due to backup failure."
-                    return 0
-                fi
-            fi
-            
-            # Create parent directory if needed
-            mkdir -p "$(dirname "$ohmyzsh_dst")"
-            
-            # Remove existing symlink if present
-            [ -L "$ohmyzsh_dst" ] && rm "$ohmyzsh_dst"
-            
-            # Remove existing directory if present (shouldn't happen after backup, but just in case)
-            [ -d "$ohmyzsh_dst" ] && [ ! -L "$ohmyzsh_dst" ] && rm -rf "$ohmyzsh_dst"
-            
-            # Create symlink with absolute path
-            ohmyzsh_src_abs="$(cd "$(dirname "$ohmyzsh_src")" && pwd)/$(basename "$ohmyzsh_src")"
-            if ln -sfn "$ohmyzsh_src_abs" "$ohmyzsh_dst"; then
-                log_info "Linked $ohmyzsh_dst -> $ohmyzsh_src_abs"
-            else
-                log_error "Failed to create symlink: $ohmyzsh_dst -> $ohmyzsh_src_abs"
-                return 0
-            fi
-            
-            # Verify the symlink was created correctly
-            if [ -L "$ohmyzsh_dst" ] && [ -d "$ohmyzsh_dst" ]; then
-                log_info "Verified .oh-my-zsh symlink is working correctly"
-            else
-                log_error "Symlink created but verification failed. Check: $ohmyzsh_dst"
-                return 0
-            fi
-        else
-            log_warn ".oh-my-zsh directory not found at: $ohmyzsh_src"
         fi
     fi
     

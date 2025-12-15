@@ -1,8 +1,0 @@
-# Shared font manifest
-# Declares intent for fonts without OS-specific package manager syntax
-
-# [fonts]
-# families = [
-#   "font-family-name",
-# ]
-

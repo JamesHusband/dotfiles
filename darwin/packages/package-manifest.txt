@@ -1,0 +1,4 @@
+# source:package
+# brew:htop
+# brew:fd
+# mas:123456789  # Example app id
