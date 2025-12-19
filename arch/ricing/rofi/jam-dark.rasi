@@ -1,0 +1,151 @@
+/************************************************
+ * ROFI Custom Theme - Jam Dark (LightDM Colors)
+ * Matches the warm, vintage aesthetic from LightDM greeter
+ * Color scheme: Dark grays with warm cream accents
+ ***********************************************/
+
+* {
+    /* Color Palette - Extracted from LightDM Greeter */
+    bg-primary:       rgba ( 59, 62, 63, 92 % );      /* #3b3e3f - Main window */
+    bg-secondary:     rgba ( 32, 39, 46, 100 % );     /* #20272e - Input fields */
+    bg-selected:      rgba ( 32, 39, 46, 100 % );     /* #20272e - Selected items */
+    bg-hover:         rgba ( 255, 255, 255, 5 % );    /* Subtle hover effect */
+    
+    fg-primary:       rgba ( 255, 247, 192, 100 % );  /* #fff7c0 - Main text */
+    fg-secondary:     rgba ( 255, 247, 192, 55 % );   /* Muted text */
+    fg-selected:      rgba ( 255, 247, 192, 100 % );  /* Selected text */
+    
+    border-color:     rgba ( 255, 247, 192, 45 % );   /* Warm cream border */
+    border-subtle:    rgba ( 255, 247, 192, 10 % );   /* Very subtle border */
+    separator-color:  rgba ( 255, 247, 192, 20 % );   /* Separator */
+    
+    accent-warm:      rgba ( 255, 247, 192, 100 % );  /* #fff7c0 - Warm cream */
+    
+    /* Base settings */
+    background-color: transparent;
+    text-color:       @fg-primary;
+    spacing:          0;
+    margin:           0;
+    padding:          0;
+}
+
+window {
+    background-color: @bg-primary;
+    border:           1px;
+    border-color:     @border-subtle;
+    border-radius:    12px;
+    padding:          20px;
+    width:            600px;
+    box-shadow:       0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+mainbox {
+    border:  0;
+    padding: 0;
+    spacing: 15px;
+}
+
+inputbar {
+    background-color: @bg-secondary;
+    text-color:       @fg-primary;
+    border-radius:    8px;
+    padding:          12px 16px;
+    spacing:          10px;
+    border:           1px solid @border-subtle;
+    children:         [ prompt, textbox-prompt-sep, entry ];
+}
+
+prompt {
+    text-color: @accent-warm;
+    font:       "monospace bold 11";
+}
+
+textbox-prompt-sep {
+    expand:     false;
+    text-color: @separator-color;
+    str:        "│";
+    margin:     0px 8px 0px 0px;
+}
+
+entry {
+    placeholder:       "Search...";
+    placeholder-color: @fg-secondary;
+    text-color:        @fg-primary;
+}
+
+listview {
+    border:        0;
+    padding:       10px 0px 0px 0px;
+    lines:         8;
+    spacing:       8px;
+    scrollbar:     false;
+    fixed-height:  true;
+}
+
+element {
+    border:        0;
+    border-radius: 8px;
+    padding:       10px 12px;
+    text-color:    @fg-primary;
+    spacing:       10px;
+}
+
+element normal.normal {
+    background-color: transparent;
+    text-color:       @fg-primary;
+}
+
+element selected.normal {
+    background-color: @bg-selected;
+    text-color:       @fg-selected;
+    border:           1px solid @border-color;
+}
+
+element alternate.normal {
+    background-color: transparent;
+    text-color:       @fg-primary;
+}
+
+element-icon {
+    size:            1.2em;
+    margin:          0px 8px 0px 0px;
+}
+
+element-text {
+    background-color: transparent;
+    text-color:       inherit;
+    vertical-align:   0.5;
+}
+
+message {
+    border:          0;
+    border-radius:   8px;
+    background-color: @bg-secondary;
+    padding:         12px;
+    margin:          0px 0px 10px 0px;
+}
+
+textbox {
+    text-color:      @fg-secondary;
+    background-color: transparent;
+}
+
+mode-switcher {
+    spacing:         8px;
+    background-color: transparent;
+    margin:          10px 0px 0px 0px;
+}
+
+button {
+    background-color: transparent;
+    text-color:       @fg-secondary;
+    border-radius:    8px;
+    padding:          8px 16px;
+    border:           1px solid transparent;
+}
+
+button.selected {
+    background-color: @bg-selected;
+    text-color:       @fg-selected;
+    border-color:     @border-color;
+}

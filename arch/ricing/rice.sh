@@ -160,6 +160,18 @@ config_dunst() {
     fi
 }
 
+# Apply rofi application launcher configuration
+config_rofi() {
+    log_info "Setting up rofi configuration..."
+    
+    ROFI_DIR="$SCRIPT_DIR/rofi"
+    [ -d "$ROFI_DIR" ] || return 0
+    
+    if [ -f "$ROFI_DIR/config.rasi" ]; then
+        link_user "$ROFI_DIR/config.rasi" ".config/rofi/config.rasi"
+    fi
+}
+
 # ============================================================================
 # Main Execution
 # ============================================================================
@@ -176,6 +188,9 @@ main() {
     
     # Configure dunst notification daemon
     config_dunst
+    
+    # Configure rofi application launcher
+    config_rofi
     
     # Additional ricing components can be added here:
     # - GTK themes

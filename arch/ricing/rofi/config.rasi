@@ -1,10 +1,10 @@
+// Rofi Configuration
+// Custom theme: Jam Dark - A modern, sleek dark theme
 
+// Previous themes (commented out for reference)
 //@theme "/usr/share/rofi/themes/Arc-Dark.rasi"
-
 //@theme "/usr/share/rofi/themes/material.rasi"
-
-//@theme "/usr/share/rofi/themes/Arc-Dark.rasi"
-
 //@theme "/usr/share/rofi/themes/android_notification.rasi"
 
-@theme "/usr/share/rofi/themes/Arc-Dark.rasi"
+// Active custom theme
+@theme "jam-dark.rasi"
