@@ -1,0 +1,40 @@
+[user]
+    # Your name and email (set by OpenBoot or manually)
+    # name = Your Name
+    # email = you@example.com
+
+[init]
+    defaultBranch = main
+
+[core]
+    editor = vim
+    autocrlf = input
+    ignorecase = false
+
+[pull]
+    rebase = true
+
+[push]
+    default = current
+    autoSetupRemote = true
+
+[fetch]
+    prune = true
+
+[diff]
+    colorMoved = default
+
+[merge]
+    conflictstyle = diff3
+
+[alias]
+    st = status -sb
+    co = checkout
+    br = branch
+    ci = commit
+    lg = log --oneline --graph --decorate -20
+    last = log -1 HEAD --stat
+    unstage = reset HEAD --
+    undo = reset --soft HEAD~1
+    amend = commit --amend --no-edit
+    wip = !git add -A && git commit -m 'WIP'
