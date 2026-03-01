@@ -1,7 +1,6 @@
 [user]
-    # Your name and email (set by OpenBoot or manually)
-    # name = Your Name
-    # email = you@example.com
+    name = James Husband
+    email = jchusband@proton.me
 
 [init]
     defaultBranch = main
