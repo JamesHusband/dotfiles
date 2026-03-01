@@ -2,23 +2,7 @@
 # Zsh Configuration
 # =============================================================================
 
-# Path to Oh My Zsh installation (if using)
-export ZSH="$HOME/.oh-my-zsh"
-
-# Theme (if using Oh My Zsh)
-ZSH_THEME="robbyrussell"
-
-# Plugins (if using Oh My Zsh)
-plugins=(
-    git
-    docker
-    kubectl
-    # zsh-autosuggestions
-    # zsh-syntax-highlighting
-)
-
-# Load Oh My Zsh (if installed)
-[[ -f $ZSH/oh-my-zsh.sh ]] && source $ZSH/oh-my-zsh.sh
+# TODO: Configure ZSH following XDG standards and moving away from oh-my-zsh
 
 # =============================================================================
 # Environment Variables
@@ -29,12 +13,7 @@ export VISUAL="$EDITOR"
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
-# Homebrew (Apple Silicon)
-if [[ -f "/opt/homebrew/bin/brew" ]]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
-
-# Homebrew (Intel)
+# Homebrew
 if [[ -f "/usr/local/bin/brew" ]]; then
     eval "$(/usr/local/bin/brew shellenv)"
 fi
@@ -76,12 +55,6 @@ alias d="docker"
 alias dc="docker compose"
 alias dps="docker ps"
 alias di="docker images"
-
-# Kubernetes shortcuts
-alias k="kubectl"
-alias kgp="kubectl get pods"
-alias kgs="kubectl get services"
-alias kgd="kubectl get deployments"
 
 # Quick edit
 alias zshrc="$EDITOR ~/.zshrc"
@@ -131,16 +104,9 @@ export NVM_DIR="$HOME/.nvm"
 [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
 [[ -s "$NVM_DIR/bash_completion" ]] && source "$NVM_DIR/bash_completion"
 
-# Go
-export GOPATH="$HOME/go"
-export PATH="$GOPATH/bin:$PATH"
-
-# Rust
-[[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
-
 # =============================================================================
 # Local Configuration
 # =============================================================================
 
 # Load local config if exists (for machine-specific settings)
-[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+# [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
